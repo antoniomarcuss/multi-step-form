@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavigationButtons } from "../../components/NavigateButtons";
-import { useNavigate } from "react-router-dom";
-const Summary = () => {
-  const { selectedPlan, billingTypePlan } = JSON.parse(
-    localStorage.getItem("planPageDetails")
-  );
-  const addPageDetails = JSON.parse(localStorage.getItem("addPageDetails"));
 
+import { useNavigate } from "react-router-dom";
+import { PlanContext } from "../../context/PlanContext";
+const Summary = () => {
   const [total, setTotal] = useState(null);
 
   const selectedPageButton = (page) => navigate(page);
+  const { userPlanData } = useContext(PlanContext);
 
+  const { selectedPlan, billingTypePlan, addOns } = userPlanData;
+
+  const monthlyPlanPrice = Number(selectedPlan.month);
+  const annualPlanValue = Number(selectedPlan.year);
   const calculateTotal = () => {
-    const monthlyPlanPrice = Number(selectedPlan.month);
-    const annualPlanValue = Number(selectedPlan.year);
-    const planValueAddPage = addPageDetails.reduce((acc, plan) => {
+    const planValueAddPage = addOns.reduce((acc, plan) => {
       return (
         acc +
         (billingTypePlan === "year" ? Number(plan.year) : Number(plan.month))
@@ -26,7 +26,6 @@ const Summary = () => {
         ? annualPlanValue + planValueAddPage
         : monthlyPlanPrice + planValueAddPage;
     setTotal(total);
-    console.log(total);
   };
 
   const navigate = useNavigate();
@@ -73,7 +72,7 @@ const Summary = () => {
                 </span>
               </div>
               <hr className="mt-4" />
-              {addPageDetails.map(({ id, type, month, year }) => (
+              {addOns.map(({ id, type, month, year }) => (
                 <div key={id}>
                   <div className="flex justify-between  py-2">
                     <span className="text-gray-400 font-medium">{type}</span>

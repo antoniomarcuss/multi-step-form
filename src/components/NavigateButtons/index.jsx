@@ -19,7 +19,7 @@ const NavigationButtons = ({ goBack, nextPage, selectedPageButton }) => {
       <button
         onClick={() => selectedPageButton(nextPage)}
         type="submit"
-        className="bg-blue-950 hover:bg-blue-600 transition-all duration-200 text-white px-5 py-3 rounded-md"
+        className="bg-blue-950 md:hover:bg-blue-600 transition-all duration-200 text-white w-32 px-5 py-3 rounded-md"
       >
         {nextPage === "/end" ? "Confirm" : " Next Step"}
       </button>

@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { planInformation } from "./components/planInformation";
 import { NavigationButtons } from "../../components/NavigateButtons";
-
+import { PlanContext } from "../../context/PlanContext";
 const Plan = () => {
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState(planInformation[0].id);
   const [changeBillingType, setChangeBillingType] = useState(false);
+
+  const { setUserPlanData } = useContext(PlanContext);
 
   const handleClickSelectedPlan = (id) => setSelectedPlan(id);
 
@@ -21,10 +23,8 @@ const Plan = () => {
         selectedPlan: plan,
       };
 
-      localStorage.setItem("planPageDetails", JSON.stringify(planPageDetails));
-      console.log(planPageDetails);
+      setUserPlanData(planPageDetails);
     }
-
     navigate(page);
   };
 

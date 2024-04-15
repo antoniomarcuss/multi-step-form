@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Info from "./pages/Info/index.jsx";
+import { PlanProvider } from "./context/PlanContext/index.jsx";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -28,8 +29,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <Info />
-    </RouterProvider>
+    <PlanProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </PlanProvider>
   </React.StrictMode>
 );

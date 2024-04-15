@@ -1,8 +1,9 @@
 import iconCheckmark from "../../assets/images/icon-checkmark.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addPagePlans } from "./components/add/addPagePlans";
 import { NavigationButtons } from "../../components/NavigateButtons";
+import { PlanContext } from "../../context/PlanContext";
 const Add = () => {
   const [selectedPlans, setSelectedPlans] = useState([addPagePlans[0].id]);
   const handleClickSelectedPlans = (id) => {
@@ -14,22 +15,23 @@ const Add = () => {
     }
   };
 
-  const { billingTypePlan } = JSON.parse(
-    localStorage.getItem("planPageDetails")
-  );
+  const { userPlanData, setUserPlanData } = useContext(PlanContext);
 
   const navigate = useNavigate();
+
   const selectedPageButton = (page) => {
     if (page === "/summary") {
       const plans = selectedPlans.map((planId) =>
         addPagePlans.find((plan) => plan.id === planId)
       );
 
-      const addPageDetails = plans;
-      localStorage.setItem("addPageDetails", JSON.stringify(addPageDetails));
-      console.log(addPageDetails);
+      setUserPlanData({
+        selectedPlan: userPlanData.selectedPlan,
+        billingTypePlan: userPlanData.billingTypePlan,
+        addOns: plans,
+      });
+      localStorage.setItem("addPageDetails", JSON.stringify(plans));
     }
-
     navigate(page);
   };
 
@@ -70,7 +72,7 @@ const Add = () => {
                   </span>
                 </div>
                 <span className="text-blue-800 opacity-70  font-medium  text-[12px]">
-                  {billingTypePlan === "year"
+                  {userPlanData.billingTypePlan === "year"
                     ? `+$${year}/yr`
                     : `+$${month}/mo`}
                 </span>
