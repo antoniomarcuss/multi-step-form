@@ -12,5 +12,5 @@ export const schema = yup.object({
   phone: yup
     .string()
     .required("this field is required")
-    .matches(/^[0-9]{9}$/, "Must be exactly 10 numbers"),
+    .matches(/^[0-9]{11}$/, "Must be exactly 11 numbers"),
 });

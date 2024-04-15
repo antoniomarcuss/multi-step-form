@@ -1,21 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../components/schema";
 import { NavigationButtons } from "../../../components/NavigateButtons";
+import useInfoFormViewModel from "../useInfoFormViewModel";
 
 const InfoForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const navigate = useNavigate();
-  const handleOnSubmit = () => navigate("/plan");
-
+  const { errors, register, handleSubmit, handleOnSubmit } =
+    useInfoFormViewModel();
   return (
     <form
       className="flex flex-col gap-4    "
@@ -71,7 +59,7 @@ const InfoForm = () => {
               event.preventDefault();
             }
           }}
-          maxLength={9}
+          maxLength={11}
           placeholder="e.g. +1 234 567 890"
           className={`border border-gray-300 mt-1  p-2 rounded-md outline-none ${
             errors.phone && "border-red-500"
